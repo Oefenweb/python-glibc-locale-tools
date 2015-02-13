@@ -5,59 +5,121 @@
 import sys
 import re
 
-lc_identification = re.compile("^LC_IDENTIFICATION")
-lc_end_identification = re.compile("^END\s+?LC_IDENTIFICATION")
-lc_all = re.compile("^LC_")
-lc_end_all= re.compile("^END\s+?LC_")
-blank = re.compile("^\s*$")
-string_segment = re.compile('"\;"|"')
+# LC_IDENTIFICATION section
+lc_identification = re.compile(r'^LC_IDENTIFICATION')
+lc_end_identification = re.compile(r'^END\s+?LC_IDENTIFICATION')
+in_lc_identification = False
 
-comment = re.compile("^(%|#)")
-copy_entity = re.compile("^copy")
-include_entity = re.compile("^include")
+# Rest of the LC sections
+lc_all = re.compile(r'^LC_')
+lc_end_all = re.compile(r'^END\s+?LC_')
+in_lc_all = False
 
-isLC_IDENTIFICATION=False
-process=False
+# translit sections
+translit_start = re.compile(r'^translit_start')
+translit_end = re.compile(r'^translit_end')
+in_translit = False
+
+# Match comment (but only if comment char is %) (e.g. % Dutch Language Locale for the Netherlands)
+comment = re.compile(r'^(%|#)')
+# Match copy (e.g. copy "i18n")
+copy = re.compile(r'^copy')
+# Match include (e.g. include  "translit_combining";"")
+include = re.compile(r'^include')
+# Match unicode characters
+unicode_characters = re.compile(r'<U[\dA-F]{4}>')
+
+def print_touched_line(line):
+  # return
+  print line,
+
+def print_untouched_line(line):
+  # return
+  print line,
+
+def unicode_decode(string):
+  return unichr(int(string, 16))
 
 for line in sys.stdin:
-  if comment.search(line):
-    print line,
-    continue
+  # LC_IDENTIFICATION start line
   if lc_identification.search(line):
-    isLC_IDENTIFICATION=True
-    print line,
+    in_lc_identification = True
+    print_untouched_line(line)
     continue
+
+  # LC_IDENTIFICATION end line
   if lc_end_identification.search(line):
-    isLC_IDENTIFICATION=False
-    print line,
+    in_lc_identification = False
+    print_untouched_line(line)
     continue
-  if isLC_IDENTIFICATION:
-    print line,
+
+  # Are we in the LC_IDENTIFICATION section
+  if in_lc_identification:
+    print_untouched_line(line)
     continue
+
+  # LC_* start line
   if lc_all.search(line):
-    process=True
-    print line,
+    in_lc_all = True
+    print_untouched_line(line)
     continue
+
+  # LC_* end line
   if lc_end_all.search(line):
-    process=False
-    print line,
+    in_lc_all = False
+    print_untouched_line(line)
     continue
-  if copy_entity.search(line):
-    print line,
+
+  # translit start line
+  if translit_start.search(line):
+    in_translit = True
+    print_untouched_line(line)
     continue
-  if include_entity.search(line):
-    print line,
+
+  # translit end line
+  if translit_end.search(line):
+    in_translit = False
+    print_untouched_line(line)
     continue
-  if process and not blank.search(line) and not re.match("^\w+?\s*\d*(;\d+)*$", line):
-    # Phew now we can encode
-    for string in string_segment.split(re.sub('^[^"]*?"', "", re.sub('"[^"]*?$', "", re.sub('/$|";/$', '"', line)))):
-      string = re.sub('\n', "", string)
-      newstring = ""
-      if not blank.search(string):
-        newword = string.decode('utf-8')
-        newword = re.sub(r'<U([0-9A-F]{4})>', lambda m: unichr(int(m.group(1), 16)), newword)
-        newstring += newword.encode('utf-8')
-      line = re.sub(re.escape(string), newstring, line)
-    print line,
-  else:
-    print line,
+
+  # Are we in the translit section
+  if in_translit:
+    print_untouched_line(line)
+    continue
+
+  # Comment line
+  if comment.search(line):
+    print_untouched_line(line)
+    continue
+
+  # Copy line
+  if copy.search(line):
+    print_untouched_line(line)
+    continue
+
+  # Include line
+  if include.search(line):
+    print_untouched_line(line)
+    continue
+
+  # Include line
+  if include.search(line):
+    print_untouched_line(line)
+    continue
+
+  # Not in a section
+  if not in_lc_all:
+    print_untouched_line(line)
+    continue
+
+  # Not an unicode character
+  if not unicode_characters.search(line):
+    print_untouched_line(line)
+    continue
+
+  modified_line = line
+  modified_line = modified_line.decode('utf-8')
+  modified_line = re.sub(r'<U([0-9A-F]{4})>', lambda match: unicode_decode(match.group(1)), modified_line)
+  modified_line = modified_line.encode('utf-8')
+
+  print_touched_line(modified_line)
