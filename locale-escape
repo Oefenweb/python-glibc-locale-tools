@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+
+import sys
+import re
+
+lc_identification = re.compile("^LC_IDENTIFICATION")
+lc_end_identification = re.compile("^END\s+?LC_IDENTIFICATION")
+lc_all = re.compile("^LC_")
+lc_end_all= re.compile("^END\s+?LC_")
+blank = re.compile("^\s*$")
+string_segment = re.compile('"\;"|"')
+
+comment = re.compile("^(%|#)")
+copy_entity = re.compile("^copy")
+
+isLC_IDENTIFICATION=False
+process=False
+
+for line in sys.stdin:
+  if comment.search(line):
+    print line,
+    continue
+  if lc_identification.search(line):
+    isLC_IDENTIFICATION=True
+    print line,
+    continue
+  if lc_end_identification.search(line):
+    isLC_IDENTIFICATION=False
+    print line,
+    continue
+  if isLC_IDENTIFICATION:
+    print line,
+    continue
+  if lc_all.search(line):
+    process=True
+    print line,
+    continue
+  if lc_end_all.search(line):
+    process=False
+    print line,
+    continue
+  if copy_entity.search(line):
+    print line,
+    continue
+  if process and not blank.search(line) and not re.match("^\w+?\s*\d*(;\d+)*$", line):
+    # Phew now we can encode
+    for string in string_segment.split(re.sub('^[^"]*?"', "", re.sub('"[^"]*?$', "", re.sub('/$|";/$', '"', line)))):
+      string = re.sub('\n', "", string)
+      newstring = ""
+      if not blank.search(string):
+        newword = string.decode('utf-8')
+        for char in re.sub("<U[\dA-F]{4,4}>", "", newword):
+          encode = "<U%04X>" % (ord(char))
+          newword = re.sub(char, encode, newword)
+        newstring = newstring + newword.encode('utf-8')
+      line = re.sub(string, newstring, line)
+      #print "'%s' %s\n%s\n" % (string, newstring, line)
+    print line,
+  else:
+    print line,
