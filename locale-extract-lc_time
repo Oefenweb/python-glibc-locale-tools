@@ -5,27 +5,30 @@
 import sys
 import re
 
-lc_identification = re.compile(r'^LC_IDENTIFICATION')
-lc_end_identification = re.compile(r'^END\s+?LC_IDENTIFICATION')
-in_lc_identification = False
-lc_time = r'LC_TIME(.*?)END\s+?LC_TIME'
+if len(sys.argv) != 2:
+  sys.stderr.write('%s [LC section name (e.g. LC_TIME)]\n' % sys.argv[0])
+  sys.exit(1)
 
+lc_section = sys.argv[1]
+possible_lc_sections = ['LC_CTYPE', 'LC_NUMERIC', 'LC_TIME', 'LC_COLLATE', 'LC_MONETARY', 'LC_MESSAGES', 'LC_PAPER',
+                        'LC_NAME', 'LC_ADDRESS', 'LC_TELEPHONE', 'LC_MEASUREMENT', 'LC_IDENTIFICATION', 'LC_ALL']
+
+if lc_section not in possible_lc_sections:
+  sys.stderr.write('Non existing LC section %s\n' % lc_section)
+  sys.exit(1)
+
+lc_section_pattern = r'\n{0}(.*?)END\s+{0}'.format(lc_section)
 
 lines = ''
 for line in sys.stdin:
-  if lc_identification.search(line):
-    in_lc_identification = True
-    continue
-  if lc_end_identification.search(line):
-    in_lc_identification = False
-    continue
-  if in_lc_identification:
-    continue
-
   lines += line
 
-match = re.search(lc_time, lines, re.DOTALL)
+match = re.search(lc_section_pattern, lines, re.DOTALL)
 
-print 'comment_char %'
-print 'escape_char  /'
-print match.group(1).strip()
+sys.stdout.write('comment_char %\n')
+sys.stdout.write('escape_char  /\n')
+
+if match:
+  sys.stdout.write(match.group(1).lstrip('\n'))
+
+sys.exit(0)
