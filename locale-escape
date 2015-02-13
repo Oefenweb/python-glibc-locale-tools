@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# -*- coding: utf-8 -*-
+
 import sys
 import re
 
@@ -12,6 +14,7 @@ string_segment = re.compile('"\;"|"')
 
 comment = re.compile("^(%|#)")
 copy_entity = re.compile("^copy")
+include_entity = re.compile("^include")
 
 isLC_IDENTIFICATION=False
 process=False
@@ -42,6 +45,9 @@ for line in sys.stdin:
   if copy_entity.search(line):
     print line,
     continue
+  if include_entity.search(line):
+    print line,
+    continue
   if process and not blank.search(line) and not re.match("^\w+?\s*\d*(;\d+)*$", line):
     # Phew now we can encode
     for string in string_segment.split(re.sub('^[^"]*?"', "", re.sub('"[^"]*?$', "", re.sub('/$|";/$', '"', line)))):
@@ -51,10 +57,9 @@ for line in sys.stdin:
         newword = string.decode('utf-8')
         for char in re.sub("<U[\dA-F]{4,4}>", "", newword):
           encode = "<U%04X>" % (ord(char))
-          newword = re.sub(char, encode, newword)
+          newword = re.sub(re.escape(char), encode, newword)
         newstring = newstring + newword.encode('utf-8')
-      line = re.sub(string, newstring, line)
-      #print "'%s' %s\n%s\n" % (string, newstring, line)
+      line = re.sub(re.escape(string), newstring, line)
     print line,
   else:
     print line,
