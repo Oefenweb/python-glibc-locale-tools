@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+
+# -*- coding: utf-8 -*-
+
+import sys
+import re
+
+lc_identification = re.compile(r'^LC_IDENTIFICATION')
+lc_end_identification = re.compile(r'^END\s+?LC_IDENTIFICATION')
+in_lc_identification = False
+lc_time = r'LC_TIME(.*?)END\s+?LC_TIME'
+
+
+lines = ''
+for line in sys.stdin:
+  if lc_identification.search(line):
+    in_lc_identification = True
+    continue
+  if lc_end_identification.search(line):
+    in_lc_identification = False
+    continue
+  if in_lc_identification:
+    continue
+
+  lines += line
+
+match = re.search(lc_time, lines, re.DOTALL)
+
+print 'comment_char %'
+print 'escape_char  /'
+print match.group(1).strip()
