@@ -4,12 +4,12 @@
 
 ## Usage
 
-### locale-extract-lc_time
+### locale-extract-lc
 
-Extracts a given LC section from a locale file.
+Extracts a given `LC_*` section from a locale file.
 
 ```sh
-./locale-extract-lc_time < test/data/nl_NL LC_TIME > test/data/LC_TIME;
+./locale-extract-lc < test/data/nl_NL LC_TIME > test/data/LC_TIME;
 ```
 
 ## References
