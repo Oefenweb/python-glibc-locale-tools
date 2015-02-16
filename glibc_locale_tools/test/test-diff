@@ -9,7 +9,7 @@ thisFilePath="$(dirname ${thisFile})";
 
 locale="${1}"
 
-.././locale-decode < data/${locale} > data/${locale}.decoded;
-.././locale-encode < data/${locale}.decoded > data/${locale}.encoded;
+../../bin/locale-decode < data/${locale} > data/${locale}.decoded;
+../../bin/locale-encode < data/${locale}.decoded > data/${locale}.encoded;
 
 diff -u data/${locale} data/${locale}.encoded;
