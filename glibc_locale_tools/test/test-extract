@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+# set -x;
+set -e;
+set -o pipefail;
+#
+thisFile="$(readlink -f ${0})";
+thisFilePath="$(dirname ${thisFile})";
+
+cd "${thisFilePath}";
+
+locale="${1}"
+
+../../bin/locale-extract-lc LC_TIME < data/${locale} > data/${locale}.LC_TIME.actual;
+
+diff -u data/${locale}.LC_TIME.expected data/${locale}.LC_TIME.actual;

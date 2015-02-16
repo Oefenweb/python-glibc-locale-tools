@@ -18,6 +18,9 @@ check:
 test:
 	nosetests -v
 
+	glibc_locale_tools/test/test-extract nl_NL
+	glibc_locale_tools/test/test-extract en_US
+
 clean:
 	python setup.py clean
 	rm -rf build deb_dist debian dist MANIFEST *.egg-info deb_dist

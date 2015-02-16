@@ -37,3 +37,4 @@ nosetests.xml
 
 glibc_locale_tools/test/data/*.decoded
 glibc_locale_tools/test/data/*.encoded
+glibc_locale_tools/test/data/*.actual
