@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import sys
-
 BETWEEN_QUOTES_PATTERN = r'"([^"]*)"'
 """
 """
@@ -20,11 +18,11 @@ LC_SECTION_PATTERN = r'\n{0}(.*?)END\s+{0}'
 """
 
 
-def unicode_decode(string):
+def unicode_decode(unicode_char):
   """
   """
 
-  return unichr(int(string, 16))
+  return unichr(int(unicode_char, 16))
 
 
 def unicode_encode(char):
