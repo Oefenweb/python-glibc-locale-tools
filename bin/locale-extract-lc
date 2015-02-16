@@ -4,20 +4,19 @@
 
 import sys
 import re
+from glibc_locale_tools.glibc_locale_tools import *
 
 if len(sys.argv) != 2:
   sys.stderr.write('%s [LC section name (e.g. LC_TIME)]\n' % sys.argv[0])
   sys.exit(1)
 
 lc_section = sys.argv[1]
-possible_lc_sections = ['LC_CTYPE', 'LC_NUMERIC', 'LC_TIME', 'LC_COLLATE', 'LC_MONETARY', 'LC_MESSAGES', 'LC_PAPER',
-                        'LC_NAME', 'LC_ADDRESS', 'LC_TELEPHONE', 'LC_MEASUREMENT', 'LC_IDENTIFICATION', 'LC_ALL']
 
-if lc_section not in possible_lc_sections:
+if lc_section not in POSSIBLE_LC_SECTIONS:
   sys.stderr.write('Non existing LC section %s\n' % lc_section)
   sys.exit(1)
 
-lc_section_pattern = r'\n{0}(.*?)END\s+{0}'.format(lc_section)
+lc_section_pattern = LC_SECTION_PATTERN.format(lc_section)
 
 lines = ''
 for line in sys.stdin:
@@ -25,6 +24,7 @@ for line in sys.stdin:
 
 match = re.search(lc_section_pattern, lines, re.DOTALL)
 
+# Lines below should be matched from lines too
 sys.stdout.write('comment_char %\n')
 sys.stdout.write('escape_char  /\n')
 

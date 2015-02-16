@@ -4,6 +4,7 @@
 
 import sys
 import re
+from glibc_locale_tools.glibc_locale_tools import POSSIBLE_LC_SECTIONS, LC_SECTION_PATTERN, readlines
 
 lines = ''
 for line in sys.stdin:
