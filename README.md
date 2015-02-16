@@ -9,7 +9,15 @@
 Extracts a given `LC_*` section from a locale file.
 
 ```sh
-./locale-extract-lc < ../glibc_locale_tools/test/data/nl_NL LC_TIME > ../glibc_locale_tools/test/data/LC_TIME
+./locale-extract-lc < ../glibc_locale_tools/test/data/nl_NL LC_TIME > ../glibc_locale_tools/test/data/LC_TIME;
+```
+
+### locale-decode-lc
+
+Decodes a given `LC_*` file.
+
+```sh
+./locale-decode-lc < ../glibc_locale_tools/test/data/LC_TIME > ../glibc_locale_tools/test/data/LC_TIME.decoded;
 ```
 
 ## References

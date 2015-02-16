@@ -35,5 +35,5 @@ nosetests.xml
 *.komodoproject
 .idea
 
-test/data/*.decoded
-test/data/*.encoded
+glibc_locale_tools/test/data/*.decoded
+glibc_locale_tools/test/data/*.encoded

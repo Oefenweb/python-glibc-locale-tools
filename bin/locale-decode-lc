@@ -4,9 +4,37 @@
 
 import sys
 import re
+from glibc_locale_tools.glibc_locale_tools import BETWEEN_QUOTES_PATTERN, UNICODE_PATTERN, unicode_decode
 
 lines = ''
 for line in sys.stdin:
   lines += line
+
+between_quotes_map = []
+for between_quotes in reversed(list(re.finditer(BETWEEN_QUOTES_PATTERN, lines))):
+  between_quotes_match = between_quotes.group(1)
+  between_quotes_match_start = between_quotes.start(1)
+  between_quotes_match_end = between_quotes.end(1)
+
+  replacement = between_quotes_match
+  for unicode_matches in reversed(list(re.finditer(UNICODE_PATTERN, between_quotes_match))):
+    unicode_match = unicode_matches.group(2)
+    unicode_match_start = unicode_matches.start(1)
+    unicode_match_end = unicode_matches.end(1)
+
+    replacement = replacement[:unicode_match_start] \
+                  + unicode_decode(unicode_match) \
+                  + replacement[unicode_match_end:]
+
+  between_quotes_map.append({'start': between_quotes_match_start,
+                             'end': between_quotes_match_end,
+                             'replacement': replacement})
+
+for between_quotes_map_items in between_quotes_map:
+  lines = lines[:between_quotes_map_items['start']] \
+          + between_quotes_map_items['replacement'] \
+          + lines[between_quotes_map_items['end']:]
+
+sys.stdout.write(lines)
 
 sys.exit(0)
