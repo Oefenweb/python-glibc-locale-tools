@@ -9,3 +9,6 @@ script: "make test"
 
 notifications:
   email: false
+  hipchat:
+    rooms:
+      secure: Fs2DhIDlqNM70oxVj9b5BpbZ/OtKvI09SVjWq4fWwFvX4cuD1fxJ4/xknyjWYONTPYQu1PMdomu3HvJ5auVcyM/fuH2dkVffEGlDsH300aId8HoRN/VcCcdLvckqgPgjpZIomOTF1G195SVolQ9Va7uc1LOzbNOb3k4lP1M+Xms=

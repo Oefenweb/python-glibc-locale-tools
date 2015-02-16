@@ -1,5 +1,7 @@
 # glibc-locale-tools
 
+[![Build Status](https://travis-ci.org/Oefenweb/glibc-locale-tools.svg)](https://travis-ci.org/Oefenweb/glibc-locale-tools)
+
 `glibc-locale-tools` provides some tools to work with (glibc) locale files (e.g. `LC_MONETARY`, `LC_NUMERIC`, `LC_TIME`)
 
 ## Usage
