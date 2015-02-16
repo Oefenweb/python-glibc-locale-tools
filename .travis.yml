@@ -5,6 +5,9 @@ python:
 
 install: "pip install -r requirements.txt"
 
+before_script:
+  - "export PYTHONPATH=${PYTHONPATH}:$(pwd)"
+
 script:
   - "make check"
   - "make test"
