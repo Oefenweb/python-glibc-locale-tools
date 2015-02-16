@@ -8,7 +8,7 @@ import re
 lc_identification = re.compile("^LC_IDENTIFICATION")
 lc_end_identification = re.compile("^END\s+?LC_IDENTIFICATION")
 lc_all = re.compile("^LC_")
-lc_end_all= re.compile("^END\s+?LC_")
+lc_end_all = re.compile("^END\s+?LC_")
 blank = re.compile("^\s*$")
 string_segment = re.compile('"\;"|"')
 
@@ -16,30 +16,30 @@ comment = re.compile("^(%|#)")
 copy_entity = re.compile("^copy")
 include_entity = re.compile("^include")
 
-isLC_IDENTIFICATION=False
-process=False
+isLC_IDENTIFICATION = False
+process = False
 
 for line in sys.stdin:
   if comment.search(line):
     print line,
     continue
   if lc_identification.search(line):
-    isLC_IDENTIFICATION=True
+    isLC_IDENTIFICATION = True
     print line,
     continue
   if lc_end_identification.search(line):
-    isLC_IDENTIFICATION=False
+    isLC_IDENTIFICATION = False
     print line,
     continue
   if isLC_IDENTIFICATION:
     print line,
     continue
   if lc_all.search(line):
-    process=True
+    process = True
     print line,
     continue
   if lc_end_all.search(line):
-    process=False
+    process = False
     print line,
     continue
   if copy_entity.search(line):

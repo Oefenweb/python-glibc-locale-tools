@@ -29,16 +29,20 @@ include = re.compile(r'^include')
 # Match unicode characters
 unicode_characters = re.compile(r'<U[\dA-F]{4}>')
 
+
 def print_touched_line(line):
   # return
   print line,
+
 
 def print_untouched_line(line):
   # return
   print line,
 
+
 def unicode_decode(string):
   return unichr(int(string, 16))
+
 
 for line in sys.stdin:
   # LC_IDENTIFICATION start line

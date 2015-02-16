@@ -41,19 +41,24 @@ between_quotes_pattern = r'"([^"]*)"'
 opened_quotes = re.compile(r'"')
 in_open_quotes = False
 
+
 def print_touched_line(line):
-  #return
+  # return
   print line,
 
+
 def print_untouched_line(line):
-  #return
+  # return
   print line,
+
 
 def unicode_decode(string):
   return unichr(int(string, 16))
 
+
 def unicode_encode(string):
   return '<U%04X>' % (ord(char))
+
 
 def find_replace_start_position(line):
   p = re.compile(r'^[a-z_]+\s+"')
@@ -61,6 +66,7 @@ def find_replace_start_position(line):
   if m:
     return m.span()[1]
   return 0
+
 
 line_number = 0
 for line in sys.stdin:
@@ -169,7 +175,7 @@ for line in sys.stdin:
   # remove leading "
   working_line = re.sub(r'^[^"]*?"', '', working_line)
 
-   # Split line
+  # Split line
   words = string_segment.split(working_line)
 
   # Remove newline of last element
