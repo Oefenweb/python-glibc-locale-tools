@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def readme():
@@ -19,6 +19,6 @@ setup(name='glibc-locale-tools',
       license='MIT',
       description='Tools to work with (glibc) locale files (e.g. LC_MONETARY, LC_NUMERIC, LC_TIME)',
       long_description=readme(),
-      py_modules=['glibc_locale_tools'],
-      scripts=['bin/glibc-locale-tools'],
+      packages=find_packages(exclude=['test']),
+      scripts=['bin/locale-decode-category', 'bin/locale-encode-category', 'bin/locale-extract-category'],
       platforms=['GNU/Linux'])

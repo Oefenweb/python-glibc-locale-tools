@@ -11,6 +11,8 @@ before_script:
 script:
   - "make check"
   - "make test"
+  - "make source"
+  - "pip install dist/glibc-locale-tools-*.tar.gz"
 
 notifications:
   email: false
