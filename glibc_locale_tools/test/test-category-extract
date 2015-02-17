@@ -17,6 +17,6 @@ fi
 
 locale="${1}"
 
-bin/locale-extract-lc LC_TIME < glibc_locale_tools/test/data/${locale} > glibc_locale_tools/test/data/${locale}.LC_TIME.actual;
+bin/locale-extract-category LC_TIME < glibc_locale_tools/test/data/${locale} > glibc_locale_tools/test/data/${locale}.LC_TIME.actual;
 
 diff -u glibc_locale_tools/test/data/${locale}.LC_TIME.expected glibc_locale_tools/test/data/${locale}.LC_TIME.actual;

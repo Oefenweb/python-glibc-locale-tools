@@ -18,8 +18,8 @@ check:
 test:
 	nosetests -v
 
-	glibc_locale_tools/test/test-extract nl_NL
-	glibc_locale_tools/test/test-extract en_US
+	glibc_locale_tools/test/test-category-extract nl_NL
+	glibc_locale_tools/test/test-category-extract en_US
 	glibc_locale_tools/test/test-category-decode-encode nl_NL
 
 clean:

@@ -6,28 +6,28 @@
 
 ## Usage
 
-### locale-extract-lc
+### locale-extract-category
 
 Extracts a given `LC_*` section from a locale file.
 
 ```sh
-bin/locale-extract-lc < glibc_locale_tools/test/data/nl_NL LC_TIME > glibc_locale_tools/test/data/nl_NL.LC_TIME.actual;
+bin/locale-extract-category < glibc_locale_tools/test/data/nl_NL LC_TIME > glibc_locale_tools/test/data/nl_NL.LC_TIME.actual;
 ```
 
-### locale-decode-lc
+### locale-decode-category
 
 Decodes a given `LC_*` file.
 
 ```sh
-bin/locale-decode-lc < glibc_locale_tools/test/data/nl_NL.LC_TIME.expected > glibc_locale_tools/test/data/nl_NL.LC_TIME.decoded;
+bin/locale-decode-category < glibc_locale_tools/test/data/nl_NL.LC_TIME.expected > glibc_locale_tools/test/data/nl_NL.LC_TIME.decoded;
 ```
 
-### locale-encode-lc
+### locale-encode-category
 
 (Re)encodes a given `LC_*` file.
 
 ```sh
-bin/locale-encode-lc < glibc_locale_tools/test/data/nl_NL.LC_TIME.decoded > glibc_locale_tools/test/data/nl_NL.LC_TIME.encoded;
+bin/locale-encode-category < glibc_locale_tools/test/data/nl_NL.LC_TIME.decoded > glibc_locale_tools/test/data/nl_NL.LC_TIME.encoded;
 ```
 
 ## References
