@@ -8,7 +8,7 @@
 
 ### locale-extract-category
 
-Extracts a given `LC_*` section from a locale file.
+Extracts a given `LC_*` section (category) from a locale file.
 
 ```sh
 bin/locale-extract-category < glibc_locale_tools/test/data/nl_NL LC_TIME > glibc_locale_tools/test/data/nl_NL.LC_TIME.actual;
@@ -16,7 +16,7 @@ bin/locale-extract-category < glibc_locale_tools/test/data/nl_NL LC_TIME > glibc
 
 ### locale-decode-category
 
-Decodes a given `LC_*` file.
+Decodes a given `LC_*` (category) file.
 
 ```sh
 bin/locale-decode-category < glibc_locale_tools/test/data/nl_NL.LC_TIME.expected > glibc_locale_tools/test/data/nl_NL.LC_TIME.decoded;
@@ -24,7 +24,7 @@ bin/locale-decode-category < glibc_locale_tools/test/data/nl_NL.LC_TIME.expected
 
 ### locale-encode-category
 
-(Re)encodes a given `LC_*` file.
+(Re)encodes a given `LC_*` (category) file.
 
 ```sh
 bin/locale-encode-category < glibc_locale_tools/test/data/nl_NL.LC_TIME.decoded > glibc_locale_tools/test/data/nl_NL.LC_TIME.encoded;
