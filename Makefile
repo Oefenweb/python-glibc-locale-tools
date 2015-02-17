@@ -24,6 +24,7 @@ test:
 	glibc_locale_tools/test/test-category-extract tr_TR
 	glibc_locale_tools/test/test-category-decode-encode da_DK
 	glibc_locale_tools/test/test-category-decode-encode nl_NL
+	glibc_locale_tools/test/test-category-decode-encode en_US
 	glibc_locale_tools/test/test-category-decode-encode tr_TR
 
 clean:

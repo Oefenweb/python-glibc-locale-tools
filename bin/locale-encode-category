@@ -19,7 +19,7 @@ for between_quotes in reversed(list(re.finditer(BETWEEN_QUOTES_PATTERN, lines)))
   between_quotes_match_end = between_quotes.end(1)
 
   replacement = between_quotes_match
-  for to_decode_matches in reversed(list(re.finditer(r'[^\/|\n]{1}', between_quotes_match))):
+  for to_decode_matches in reversed(list(re.finditer(TO_DECODE_PATTERN, between_quotes_match))):
     to_decode_match = to_decode_matches.group(0)
     to_decode_match_start = to_decode_matches.start(0)
     to_decode_match_end = to_decode_matches.end(0)

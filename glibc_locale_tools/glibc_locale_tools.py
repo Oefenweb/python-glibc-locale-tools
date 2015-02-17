@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 
-BETWEEN_QUOTES_PATTERN = r'"([^"]*)"'
+BETWEEN_QUOTES_PATTERN = r'^[^%].*"([^"]*)"'
 """
 """
 
 UNICODE_PATTERN = r'(<U([0-9A-F]{4})>*)'
+"""
+"""
+
+TO_DECODE_PATTERN = r'[^\/\n]{1}'
 """
 """
 
