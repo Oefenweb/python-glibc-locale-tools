@@ -10,6 +10,8 @@ lines = ''
 for line in sys.stdin:
   lines += line
 
+lines = lines.decode('utf-8')
+
 between_quotes_map = []
 for between_quotes in reversed(list(re.finditer(BETWEEN_QUOTES_PATTERN, lines))):
   between_quotes_match = between_quotes.group(1)
@@ -38,7 +40,6 @@ for between_quotes_map_items in between_quotes_map:
                              between_quotes_map_items['replacement'],
                              between_quotes_map_items['end'])
 
-sys.stdout.write(lines)
-
+sys.stdout.write(lines.encode('utf-8'))
 
 sys.exit(0)
