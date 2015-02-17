@@ -4,10 +4,41 @@
 
 import sys
 import re
-from glibc_locale_tools.glibc_locale_tools import POSSIBLE_LC_SECTIONS, LC_SECTION_PATTERN, readlines
+from glibc_locale_tools.glibc_locale_tools import *
 
 lines = ''
 for line in sys.stdin:
   lines += line
+
+between_quotes_map = []
+for between_quotes in reversed(list(re.finditer(BETWEEN_QUOTES_PATTERN, lines))):
+  between_quotes_match = between_quotes.group(1)
+  between_quotes_match_start = between_quotes.start(1)
+  between_quotes_match_end = between_quotes.end(1)
+
+  replacement = between_quotes_match
+  for to_decode_matches in reversed(list(re.finditer(r'[^\/|\n]{1}', between_quotes_match))):
+    to_decode_match = to_decode_matches.group(0)
+    to_decode_match_start = to_decode_matches.start(0)
+    to_decode_match_end = to_decode_matches.end(0)
+
+    if len(to_decode_match) == 0:
+      continue
+
+    replacement = replace_positional(replacement,
+                                     to_decode_match_start, unicode_encode(to_decode_match), to_decode_match_end)
+
+  between_quotes_map.append({'start': between_quotes_match_start,
+                             'end': between_quotes_match_end,
+                             'replacement': replacement})
+
+for between_quotes_map_items in between_quotes_map:
+  lines = replace_positional(lines,
+                             between_quotes_map_items['start'],
+                             between_quotes_map_items['replacement'],
+                             between_quotes_map_items['end'])
+
+sys.stdout.write(lines)
+
 
 sys.exit(0)

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#
+# set -x;
+set -e;
+set -o pipefail;
+#
+thisFile="$(readlink -f ${0})";
+thisFilePath="$(dirname ${thisFile})";
+
+cd "${thisFilePath}/../../";
+
+if [ -z "${1}" ]; then
+  echo "Use the script as described below:";
+  echo "${0} [ locale (e.g. nl_NL) ]";
+  exit 1;
+fi
+
+locale="${1}"
+
+bin/locale-decode-lc < glibc_locale_tools/test/data/${locale}.LC_TIME.expected > glibc_locale_tools/test/data/${locale}.LC_TIME.decoded;
+bin/locale-encode-lc < glibc_locale_tools/test/data/${locale}.LC_TIME.decoded > glibc_locale_tools/test/data/${locale}.LC_TIME.encoded;
+
+diff -u glibc_locale_tools/test/data/${locale}.LC_TIME.expected glibc_locale_tools/test/data/${locale}.LC_TIME.encoded;

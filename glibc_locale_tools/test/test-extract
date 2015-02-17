@@ -7,10 +7,16 @@ set -o pipefail;
 thisFile="$(readlink -f ${0})";
 thisFilePath="$(dirname ${thisFile})";
 
-cd "${thisFilePath}";
+cd "${thisFilePath}/../../";
+
+if [ -z "${1}" ]; then
+  echo "Use the script as described below:";
+  echo "${0} [ locale (e.g. nl_NL) ]";
+  exit 1;
+fi
 
 locale="${1}"
 
-../../bin/locale-extract-lc LC_TIME < data/${locale} > data/${locale}.LC_TIME.actual;
+bin/locale-extract-lc LC_TIME < glibc_locale_tools/test/data/${locale} > glibc_locale_tools/test/data/${locale}.LC_TIME.actual;
 
-diff -u data/${locale}.LC_TIME.expected data/${locale}.LC_TIME.actual;
+diff -u glibc_locale_tools/test/data/${locale}.LC_TIME.expected glibc_locale_tools/test/data/${locale}.LC_TIME.actual;

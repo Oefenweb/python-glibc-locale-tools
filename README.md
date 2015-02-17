@@ -11,7 +11,7 @@
 Extracts a given `LC_*` section from a locale file.
 
 ```sh
-./locale-extract-lc < ../glibc_locale_tools/test/data/nl_NL LC_TIME > ../glibc_locale_tools/test/data/LC_TIME;
+bin/locale-extract-lc < glibc_locale_tools/test/data/nl_NL LC_TIME > glibc_locale_tools/test/data/nl_NL.LC_TIME.actual;
 ```
 
 ### locale-decode-lc
@@ -19,7 +19,15 @@ Extracts a given `LC_*` section from a locale file.
 Decodes a given `LC_*` file.
 
 ```sh
-./locale-decode-lc < ../glibc_locale_tools/test/data/LC_TIME > ../glibc_locale_tools/test/data/LC_TIME.decoded;
+bin/locale-decode-lc < glibc_locale_tools/test/data/nl_NL.LC_TIME.expected > glibc_locale_tools/test/data/nl_NL.LC_TIME.decoded;
+```
+
+### locale-encode-lc
+
+(Re)encodes a given `LC_*` file.
+
+```sh
+bin/locale-encode-lc < glibc_locale_tools/test/data/nl_NL.LC_TIME.decoded > glibc_locale_tools/test/data/nl_NL.LC_TIME.encoded;
 ```
 
 ## References
