@@ -22,13 +22,15 @@ lines = ''
 for line in sys.stdin:
   lines += line
 
-match = re.search(lc_section_pattern, lines, re.DOTALL)
+match_comment_char = re.search(COMMENT_CHAR_PATTERN, lines, re.MULTILINE)
+match_escape_char = re.search(ESCAPE_CHAR_PATTERN, lines, re.MULTILINE)
+match_category = re.search(lc_section_pattern, lines, re.DOTALL)
 
-# Lines below should be matched from lines too
-sys.stdout.write('comment_char %\n')
-sys.stdout.write('escape_char  /\n')
-
-if match:
-  sys.stdout.write(match.group(1).lstrip('\n'))
+if match_comment_char:
+  sys.stdout.write(match_comment_char.group(1) + '\n')
+if match_escape_char:
+  sys.stdout.write(match_escape_char.group(1) + '\n')
+if match_category:
+  sys.stdout.write(match_category.group(1).lstrip('\n'))
 
 sys.exit(0)

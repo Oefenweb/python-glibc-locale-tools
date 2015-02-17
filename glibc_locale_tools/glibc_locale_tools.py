@@ -26,6 +26,16 @@ LC_SECTION_PATTERN = r'\n{0}(.*?)END\s+{0}'
 A re pattern to match a LC_* section (category, e.g. LC_TIME) in a locale file (e.g. nl_NL).
 """
 
+COMMENT_CHAR_PATTERN = r'^(comment_char\s+(.*))$'
+"""
+A re pattern to match a comment_char line.
+"""
+
+ESCAPE_CHAR_PATTERN = r'^(escape_char\s+(.*))$'
+"""
+A re pattern to match a escape_char line.
+"""
+
 
 def unicode_decode(unicode_char):
   """
