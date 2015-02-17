@@ -9,7 +9,7 @@ def readme():
 
 
 setup(name='glibc-locale-tools',
-      version='0.1.0',
+      version='0.1.1',
       author='Mischa ter Smitten',
       author_email='mtersmitten@oefenweb.nl',
       maintainer='Mischa ter Smitten',
