@@ -41,3 +41,10 @@ def replace_positional(original, start, replacement, end):
   """
 
   return original[:start] + replacement + original[end:]
+
+
+def reverse_iter(iterator):
+  """
+  """
+
+  return reversed(list(iterator))

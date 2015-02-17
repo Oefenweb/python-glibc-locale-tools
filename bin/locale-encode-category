@@ -13,7 +13,7 @@ for line in sys.stdin:
 lines = lines.decode('utf-8')
 
 between_quotes_map = []
-for between_quotes in reversed(list(re.finditer(BETWEEN_QUOTES_PATTERN, lines))):
+for between_quotes in reverse_iter(re.finditer(BETWEEN_QUOTES_PATTERN, lines)):
   between_quotes_match = between_quotes.group(1)
   between_quotes_match_start = between_quotes.start(1)
   between_quotes_match_end = between_quotes.end(1)
@@ -23,9 +23,6 @@ for between_quotes in reversed(list(re.finditer(BETWEEN_QUOTES_PATTERN, lines)))
     to_decode_match = to_decode_matches.group(0)
     to_decode_match_start = to_decode_matches.start(0)
     to_decode_match_end = to_decode_matches.end(0)
-
-    if len(to_decode_match) == 0:
-      continue
 
     replacement = replace_positional(replacement,
                                      to_decode_match_start, unicode_encode(to_decode_match), to_decode_match_end)

@@ -61,5 +61,15 @@ class TestHelperFunctions(unittest.TestCase):
     expected = 'quictuam'
     self.assertEqual(actual, expected)
 
+  def test_reverse_iter(self):
+    """
+    Tests `reverse_iter`.
+    """
+
+    actual = reverse_iter(iter([1, 2, 3]))
+    expected = iter([3, 2, 1])
+
+    self.assertSequenceEqual(list(actual), list(expected))
+
 suite = unittest.TestLoader().loadTestsFromTestCase(TestHelperFunctions)
 unittest.TextTestRunner(verbosity=2).run(suite)
