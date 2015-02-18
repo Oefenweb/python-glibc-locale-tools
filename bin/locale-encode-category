@@ -3,40 +3,41 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import re
 from glibc_locale_tools.glibc_locale_tools import *
 
-lines = ''
+lines = []
 for line in sys.stdin:
-  lines += line
+  lines.append(line)
+lines_joined = ''.join(lines).decode('utf-8')
 
-lines = lines.decode('utf-8')
+unsafe_spans = get_unsafe_spans(lines, lines_joined)
 
 between_quotes_map = []
-for between_quotes in reverse_iter(re.finditer(BETWEEN_QUOTES_PATTERN, lines)):
+for between_quotes in reverse_iter(re.finditer(BETWEEN_QUOTES_PATTERN, lines_joined)):
   between_quotes_match = between_quotes.group(1)
   between_quotes_match_start = between_quotes.start(1)
   between_quotes_match_end = between_quotes.end(1)
 
+  if in_unsafe_spans(between_quotes_match_start, between_quotes_match_end, unsafe_spans):
+    continue
+
   replacement = between_quotes_match
   for to_decode_matches in reversed(list(re.finditer(TO_DECODE_PATTERN, between_quotes_match))):
-    to_decode_match = to_decode_matches.group(0)
-    to_decode_match_start = to_decode_matches.start(0)
-    to_decode_match_end = to_decode_matches.end(0)
-
     replacement = replace_positional(replacement,
-                                     to_decode_match_start, unicode_encode(to_decode_match), to_decode_match_end)
+                                     to_decode_matches.start(0),
+                                     unicode_encode(to_decode_matches.group(0)),
+                                     to_decode_matches.end(0))
 
   between_quotes_map.append({'start': between_quotes_match_start,
                              'end': between_quotes_match_end,
                              'replacement': replacement})
 
 for between_quotes_map_items in between_quotes_map:
-  lines = replace_positional(lines,
-                             between_quotes_map_items['start'],
-                             between_quotes_map_items['replacement'],
-                             between_quotes_map_items['end'])
+  lines_joined = replace_positional(lines_joined,
+                                    between_quotes_map_items['start'],
+                                    between_quotes_map_items['replacement'],
+                                    between_quotes_map_items['end'])
 
-sys.stdout.write(lines.encode('utf-8'))
+sys.stdout.write(lines_joined.encode('utf-8'))
 
 sys.exit(0)
