@@ -72,62 +72,109 @@ class TestHelperFunctions(unittest.TestCase):
 
     self.assertSequenceEqual(list(actual), list(expected))
 
-  def test_between_quotes(self):
+  def test_between_quotes_multi_line_multi_value(self):
     """
     Tests BETWEEN_QUOTES_PATTERN.
+
+    Multi line, multi value.
     """
 
-    # Multiline, multi value
-    str1 = ('abday   "zo";"ma";"di";/\n'
-            '	"wo";"do";"vr";/\n'
-            '	"za"')
+    str = ('abday   "zo";"ma";"di";/\n'
+           '	"wo";"do";"vr";/\n'
+           '	"za"')
 
-    actual1 = re.findall(BETWEEN_QUOTES_PATTERN, str1)
-    expected1 = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za']
-    self.assertSequenceEqual(actual1, expected1)
+    actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
+    expected = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za']
+    self.assertSequenceEqual(actual, expected)
 
-    # Multiline, multiple single values
-    str2 = ('day     "zondag";/\n'
-            '	"maandag";/\n'
-            '	"dinsdag";/\n'
-            '	"woensdag";/\n'
-            '	"donderdag";/\n'
-            '	"vrijdag";/\n'
-            '	"zaterdag"')
+  def test_between_quotes_multiline_multiple_single_values(self):
+    """
+    Tests BETWEEN_QUOTES_PATTERN.
 
-    actual2 = re.findall(BETWEEN_QUOTES_PATTERN, str2)
-    expected2 = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag']
-    self.assertSequenceEqual(actual2, expected2)
+    Multi line, multiple single values.
+    """
 
-    # Single line, single value
-    str3 = 'd_t_fmt "%a %d %b %Y %T %Z"'
+    str = ('day     "zondag";/\n'
+           '	"maandag";/\n'
+           '	"dinsdag";/\n'
+           '	"woensdag";/\n'
+           '	"donderdag";/\n'
+           '	"vrijdag";/\n'
+           '	"zaterdag"')
 
-    actual3 = re.findall(BETWEEN_QUOTES_PATTERN, str3)
-    expected3 = ['%a %d %b %Y %T %Z']
-    self.assertSequenceEqual(actual3, expected3)
+    actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
+    expected = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag']
+    self.assertSequenceEqual(actual, expected)
 
-    # Single line, multi (empty) value
-    str4 = 'am_pm   "";""'
+  def test_between_quotes_single_line_single_value(self):
+    """
+    Tests BETWEEN_QUOTES_PATTERN.
 
-    actual4 = re.findall(BETWEEN_QUOTES_PATTERN, str4)
-    expected4 = ['', '']
-    self.assertSequenceEqual(actual4, expected4)
+    Single line, single value
+    """
 
-    # Single line, single (empty) value
-    str5 = 't_fmt_ampm ""'
+    str = 'd_t_fmt "%a %d %b %Y %T %Z"'
 
-    actual5 = re.findall(BETWEEN_QUOTES_PATTERN, str5)
-    expected5 = ['']
-    self.assertSequenceEqual(actual5, expected5)
+    actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
+    expected = ['%a %d %b %Y %T %Z']
+    self.assertSequenceEqual(actual, expected)
 
-    # Multi line, single value
-    str6 = ('date_fmt       "%a %b %e/\n'
-            ' %H:%M:%S /\n'
-            '%Z %Y"')
+  def test_between_quotes_single_line_multi_empty_value(self):
+    """
+    Tests BETWEEN_QUOTES_PATTERN.
 
-    actual6 = re.findall(BETWEEN_QUOTES_PATTERN, str6)
-    expected6 = ['%a %b %e/\n %H:%M:%S /\n%Z %Y']
-    self.assertSequenceEqual(actual6, expected6)
+    Single line, multi (empty) value.
+    """
+
+    str = 'am_pm   "";""'
+
+    actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
+    expected = ['', '']
+    self.assertSequenceEqual(actual, expected)
+
+  def test_between_quotes_single_line_single_empty_value(self):
+    """
+    Tests BETWEEN_QUOTES_PATTERN.
+
+    Single line, single (empty) value.
+    """
+
+    str = 't_fmt_ampm ""'
+
+    actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
+    expected = ['']
+    self.assertSequenceEqual(actual, expected)
+
+  def test_between_quotes_multi_line_single_value(self):
+    """
+    Tests BETWEEN_QUOTES_PATTERN.
+
+    Multi line, single value.
+    """
+
+    str = ('date_fmt       "%a %b %e/\n'
+           ' %H:%M:%S /\n'
+           '%Z %Y"')
+
+    actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
+    expected = ['%a %b %e/\n %H:%M:%S /\n%Z %Y']
+    self.assertSequenceEqual(actual, expected)
+
+  @unittest.skip("Not supported yet")
+  def test_between_quotes_multi_line_single_value_with_comments(self):
+    """
+    Tests BETWEEN_QUOTES_PATTERN.
+
+    Multi line, single value, with comments.
+    """
+
+    str = ('% Appropriate AM/PM time representation (%r)\n'
+           '%	"%I:%M:%S %p"\n'
+           't_fmt_ampm "%I:%M:%S /\n'
+           '%p"')
+    actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
+    expected = ['%I:%M:%S /\n%p']
+    self.assertSequenceEqual(actual, expected)
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestHelperFunctions)
 unittest.TextTestRunner(verbosity=2).run(suite)
