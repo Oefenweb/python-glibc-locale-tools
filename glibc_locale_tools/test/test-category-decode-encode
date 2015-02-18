@@ -17,7 +17,7 @@ fi
 
 locale="${1}"
 
-# Encode
+# Decode
 bin/locale-decode-category < \
   glibc_locale_tools/test/data/${locale}.LC_TIME.expected > \
   glibc_locale_tools/test/data/${locale}.LC_TIME.decoded;
