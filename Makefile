@@ -31,5 +31,6 @@ clean:
 	python setup.py clean
 	rm -rf build deb_dist debian dist MANIFEST *.egg-info deb_dist
 	find . -name '*.pyc' -print0 | xargs --no-run-if-empty -0 rm
-	find . -name '*.*coded' -print0 | xargs --no-run-if-empty -0 rm
+	find . -name '*.decoded' -print0 | xargs --no-run-if-empty -0 rm
+	find . -name '*.encode' -print0 | xargs --no-run-if-empty -0 rm
 	find . -name '*.actual' -print0 | xargs --no-run-if-empty -0 rm
