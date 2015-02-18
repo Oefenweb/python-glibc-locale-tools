@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-BETWEEN_QUOTES_PATTERN = r'^[^%].*"([^"]*)"'
+BETWEEN_QUOTES_PATTERN = r'"([^"]*)"'
 """
 A re pattern to match a between quotes section, that is not a comment.
 """
