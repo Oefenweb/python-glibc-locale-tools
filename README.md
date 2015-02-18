@@ -4,6 +4,11 @@
 
 `glibc-locale-tools` provides some tools to work with (glibc) locale files (e.g. `LC_MONETARY`, `LC_NUMERIC`, `LC_TIME`)
 
+## Requirements
+
+* Python 2.6 seems to work but running tests fails
+* Python 2.7
+
 ## Usage
 
 ### locale-extract-category
