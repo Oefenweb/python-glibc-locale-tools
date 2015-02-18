@@ -79,9 +79,11 @@ class TestHelperFunctions(unittest.TestCase):
     Multi line, multi value.
     """
 
-    str = ('abday   "zo";"ma";"di";/\n'
-           '	"wo";"do";"vr";/\n'
-           '	"za"')
+    str = '''
+abday   "zo";"ma";"di";/
+	"wo";"do";"vr";/
+	"za"
+'''
 
     actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
     expected = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za']
@@ -94,13 +96,15 @@ class TestHelperFunctions(unittest.TestCase):
     Multi line, multiple single values.
     """
 
-    str = ('day     "zondag";/\n'
-           '	"maandag";/\n'
-           '	"dinsdag";/\n'
-           '	"woensdag";/\n'
-           '	"donderdag";/\n'
-           '	"vrijdag";/\n'
-           '	"zaterdag"')
+    str = '''
+day     "zondag";/
+	"maandag";/
+	"dinsdag";/
+	"woensdag";/
+	"donderdag";/
+	"vrijdag";/
+	"zaterdag"
+'''
 
     actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
     expected = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag']
@@ -113,7 +117,9 @@ class TestHelperFunctions(unittest.TestCase):
     Single line, single value
     """
 
-    str = 'd_t_fmt "%a %d %b %Y %T %Z"'
+    str = '''
+d_t_fmt "%a %d %b %Y %T %Z"
+'''
 
     actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
     expected = ['%a %d %b %Y %T %Z']
@@ -126,7 +132,9 @@ class TestHelperFunctions(unittest.TestCase):
     Single line, multi (empty) value.
     """
 
-    str = 'am_pm   "";""'
+    str = '''
+am_pm   "";""
+'''
 
     actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
     expected = ['', '']
@@ -139,7 +147,9 @@ class TestHelperFunctions(unittest.TestCase):
     Single line, single (empty) value.
     """
 
-    str = 't_fmt_ampm ""'
+    str = '''
+t_fmt_ampm ""
+'''
 
     actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
     expected = ['']
@@ -152,15 +162,16 @@ class TestHelperFunctions(unittest.TestCase):
     Multi line, single value.
     """
 
-    str = ('date_fmt       "%a %b %e/\n'
-           ' %H:%M:%S /\n'
-           '%Z %Y"')
+    str = '''
+date_fmt       "%a %b %e/
+ %H:%M:%S /
+%Z %Y"
+'''
 
     actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
     expected = ['%a %b %e/\n %H:%M:%S /\n%Z %Y']
     self.assertSequenceEqual(actual, expected)
 
-  @unittest.skip("Not supported yet")
   def test_between_quotes_multi_line_single_value_with_comments(self):
     """
     Tests BETWEEN_QUOTES_PATTERN.
@@ -168,10 +179,13 @@ class TestHelperFunctions(unittest.TestCase):
     Multi line, single value, with comments.
     """
 
-    str = ('% Appropriate AM/PM time representation (%r)\n'
-           '%	"%I:%M:%S %p"\n'
-           't_fmt_ampm "%I:%M:%S /\n'
-           '%p"')
+    str = '''
+% Appropriate AM/PM time representation (%r)
+%	"%I:%M:%S %p"
+t_fmt_ampm "%I:%M:%S /
+%p"
+    '''
+
     actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
     expected = ['%I:%M:%S /\n%p']
     self.assertSequenceEqual(actual, expected)
