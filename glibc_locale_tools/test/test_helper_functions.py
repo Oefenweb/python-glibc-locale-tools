@@ -81,8 +81,8 @@ class TestHelperFunctions(unittest.TestCase):
 
     str = '''
 abday   "zo";"ma";"di";/
-	"wo";"do";"vr";/
-	"za"
+\t"wo";"do";"vr";/
+\t"za"
 '''
 
     actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
@@ -98,12 +98,12 @@ abday   "zo";"ma";"di";/
 
     str = '''
 day     "zondag";/
-	"maandag";/
-	"dinsdag";/
-	"woensdag";/
-	"donderdag";/
-	"vrijdag";/
-	"zaterdag"
+\t"maandag";/
+\t"dinsdag";/
+\t"woensdag";/
+\t"donderdag";/
+\t"vrijdag";/
+\t"zaterdag"
 '''
 
     actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
@@ -172,6 +172,7 @@ date_fmt       "%a %b %e/
     expected = ['%a %b %e/\n %H:%M:%S /\n%Z %Y']
     self.assertSequenceEqual(actual, expected)
 
+  @unittest.skip("Not supported")
   def test_between_quotes_multi_line_single_value_with_comments(self):
     """
     Tests BETWEEN_QUOTES_PATTERN.
@@ -181,7 +182,7 @@ date_fmt       "%a %b %e/
 
     str = '''
 % Appropriate AM/PM time representation (%r)
-%	"%I:%M:%S %p"
+%\t"%I:%M:%S %p"
 t_fmt_ampm "%I:%M:%S /
 %p"
     '''
@@ -189,6 +190,90 @@ t_fmt_ampm "%I:%M:%S /
     actual = re.findall(BETWEEN_QUOTES_PATTERN, str, re.MULTILINE)
     expected = ['%I:%M:%S /\n%p']
     self.assertSequenceEqual(actual, expected)
+
+  def test_comment_line_with_quotes(self):
+    """
+    Tests COMMENT_LINE_WITH_QUOTES_PATTERN.
+    """
+
+    str = '''
+% Appropriate date and time representation (%c)
+'''
+
+    self.assertIsNone(re.search(COMMENT_LINE_WITH_QUOTES_PATTERN, str.lstrip('\n')))
+
+    str = '''
+%\t"%a %d %b %Y %r %Z"
+'''
+
+    self.assertIsNotNone(re.search(COMMENT_LINE_WITH_QUOTES_PATTERN, str.lstrip('\n')))
+
+    str = '''
+d_t_fmt "%a %d %b %Y %r %Z"
+'''
+
+    self.assertIsNone(re.search(COMMENT_LINE_WITH_QUOTES_PATTERN, str.lstrip('\n')))
+
+    str = '''
+%
+'''
+    self.assertIsNone(re.search(COMMENT_LINE_WITH_QUOTES_PATTERN, str.lstrip('\n')))
+
+  def test_between_range(self):
+    """
+    Tests `between_range`.
+    """
+
+    range1 = {'start': 0, 'end': 100}
+    range2 = {'start': 5, 'end': 95}
+
+    actual = between_range(range1, range2)
+    self.assertTrue(actual)
+
+    range1 = {'start': 0, 'end': 100}
+    range2 = {'start': 0, 'end': 100}
+
+    actual = between_range(range1, range2)
+    self.assertTrue(actual)
+
+    range1 = {'start': 0, 'end': 49}
+    range2 = {'start': 50, 'end': 99}
+
+    actual = between_range(range1, range2)
+    self.assertFalse(actual)
+
+    range1 = {'start': 0, 'end': 50}
+    range2 = {'start': 50, 'end': 100}
+
+    actual = between_range(range1, range2)
+    self.assertFalse(actual)
+
+    range1 = {'start': 0, 'end': 51}
+    range2 = {'start': 49, 'end': 100}
+
+    actual = between_range(range1, range2)
+    self.assertFalse(actual)
+
+  def test_in_unsafe_spans(self):
+    """
+      Tests `in_unsafe_spans`.
+    """
+
+    match_start = 421
+    match_end = 521
+    unsafe_spans = [{'start': 521, 'end': 543}, {'start': 612, 'end': 625}, {'start': 685, 'end': 692},
+                    {'start': 752, 'end': 768}, {'start': 837, 'end': 909}]
+
+    actual = in_unsafe_spans(match_start, match_end, unsafe_spans)
+    self.assertFalse(actual)
+
+    match_start = 522
+    match_end = 524
+    unsafe_spans = [{'start': 521, 'end': 543}, {'start': 612, 'end': 625}, {'start': 685, 'end': 692},
+                    {'start': 752, 'end': 768}, {'start': 837, 'end': 909}]
+
+    actual = in_unsafe_spans(match_start, match_end, unsafe_spans)
+    self.assertTrue(actual)
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestHelperFunctions)
 unittest.TextTestRunner(verbosity=2).run(suite)
