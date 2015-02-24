@@ -13,7 +13,7 @@ UNICODE_PATTERN = r'(<U([0-9A-F]{4})>*)'
 A re pattern to match a unicode char (e.g. <U002D>).
 """
 
-TO_DECODE_PATTERN = r'[^\/\n]{1}'
+TO_DECODE_PATTERN = r'(/(?!\n)|[^/\n]){1}'
 """
 A re pattern to match a string section that needs decoding.
 """

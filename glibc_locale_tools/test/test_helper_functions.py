@@ -219,6 +219,46 @@ d_t_fmt "%a %d %b %Y %r %Z"
 '''
     self.assertIsNone(re.search(COMMENT_LINE_WITH_QUOTES_PATTERN, str.lstrip('\n')))
 
+  def test_to_decode_pattern(self):
+    """
+    Tests TO_DECODE_PATTERN.
+    """
+
+    str = '''
+%a %d %b %Y %T %Z
+'''
+
+    actual = re.findall(TO_DECODE_PATTERN, str)
+    expected = list(str.strip('\n'))
+    self.assertSequenceEqual(actual, expected)
+
+    str = '''
+%a %b %e/
+ %H:%M:%S /
+%Z %Y
+'''
+
+    actual = re.findall(TO_DECODE_PATTERN, str)
+    expected = list(str.strip('\n').replace('/\n', ''))
+    self.assertSequenceEqual(actual, expected)
+
+    str = '''
+%a %b %e/ %H:%M:%S /
+%Z %Y
+'''
+
+    actual = re.findall(TO_DECODE_PATTERN, str)
+    expected = list(str.strip('\n').replace('/\n', ''))
+    self.assertSequenceEqual(actual, expected)
+
+    str = '''
+%m/%d/%Y
+'''
+
+    actual = re.findall(TO_DECODE_PATTERN, str)
+    expected = list(str.strip('\n'))
+    self.assertSequenceEqual(actual, expected)
+
   def test_between_range(self):
     """
     Tests `between_range`.
