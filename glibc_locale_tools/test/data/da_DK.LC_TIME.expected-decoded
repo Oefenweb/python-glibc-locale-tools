@@ -1,0 +1,42 @@
+comment_char %
+escape_char /
+abday       "søn";"man";/
+            "tir";"ons";/
+            "tor";"fre";/
+            "lør"
+day         "søndag";/
+            "mandag";/
+            "tirsdag";/
+            "onsdag";/
+            "torsdag";/
+            "fredag";/
+            "lørdag"
+abmon       "jan";"feb";/
+            "mar";"apr";/
+            "maj";"jun";/
+            "jul";"aug";/
+            "sep";"okt";/
+            "nov";"dec"
+mon         "januar";/
+            "februar";/
+            "marts";/
+            "april";/
+            "maj";/
+            "juni";/
+            "juli";/
+            "august";/
+            "september";/
+            "oktober";/
+            "november";/
+            "december"
+d_t_fmt     "%a %d %b %Y %T %Z"
+d_fmt       "%d-%m-%Y"
+t_fmt       "%T"
+am_pm       "";""
+t_fmt_ampm  ""
+date_fmt	"%a %b %e/
+ %H:%M:%S /
+%Z %Y"
+week    7;19971130;4
+first_weekday 2
+first_workday 2

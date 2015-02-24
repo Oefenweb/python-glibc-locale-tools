@@ -17,7 +17,18 @@ fi
 
 locale="${1}"
 
-bin/locale-decode-category < glibc_locale_tools/test/data/${locale}.LC_TIME.expected > glibc_locale_tools/test/data/${locale}.LC_TIME.decoded;
-bin/locale-encode-category < glibc_locale_tools/test/data/${locale}.LC_TIME.decoded > glibc_locale_tools/test/data/${locale}.LC_TIME.encoded;
+# Decode
+bin/locale-decode-category < \
+  glibc_locale_tools/test/data/${locale}.LC_TIME.expected > \
+  glibc_locale_tools/test/data/${locale}.LC_TIME.decoded;
 
-diff -u glibc_locale_tools/test/data/${locale}.LC_TIME.expected glibc_locale_tools/test/data/${locale}.LC_TIME.encoded;
+diff -u glibc_locale_tools/test/data/${locale}.LC_TIME.expected-decoded \
+  glibc_locale_tools/test/data/${locale}.LC_TIME.decoded;
+
+# Encode
+bin/locale-encode-category < \
+  glibc_locale_tools/test/data/${locale}.LC_TIME.decoded > \
+  glibc_locale_tools/test/data/${locale}.LC_TIME.encoded;
+
+diff -u glibc_locale_tools/test/data/${locale}.LC_TIME.expected \
+  glibc_locale_tools/test/data/${locale}.LC_TIME.encoded;

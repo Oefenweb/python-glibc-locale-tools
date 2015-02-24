@@ -1,0 +1,60 @@
+comment_char %
+escape_char /
+abday	"Sun";"Mon";/
+	"Tue";"Wed";/
+	"Thu";"Fri";/
+	"Sat"
+day	"Sunday";/
+	"Monday";/
+	"Tuesday";/
+	"Wednesday";/
+	"Thursday";/
+	"Friday";/
+	"Saturday"
+
+week    7;19971130;7
+first_weekday	1
+first_workday	2
+abmon	"Jan";"Feb";/
+	"Mar";"Apr";/
+	"May";"Jun";/
+	"Jul";"Aug";/
+	"Sep";"Oct";/
+	"Nov";"Dec"
+mon	"January";/
+	"February";/
+	"March";/
+	"April";/
+	"May";/
+	"June";/
+	"July";/
+	"August";/
+	"September";/
+	"October";/
+	"November";/
+	"December"
+% Appropriate date and time representation (%c)
+%	"%a %d %b %Y %r %Z"
+d_t_fmt "%a %d %b %Y %r %Z"
+%
+% Appropriate date representation (%x)
+%	"%m/%d/%Y"
+d_fmt   "%m/%d/%Y"
+%
+% Appropriate time representation (%X)
+%	"%r"
+t_fmt   "%r"
+%
+% Appropriate AM/PM time representation (%r)
+%	"%I:%M:%S %p"
+t_fmt_ampm "%I:%M:%S /
+%p"
+%
+% Strings for AM/PM
+%
+am_pm	"AM";"PM"
+%
+% Appropriate date representation (date(1))   "%a %b %e %H:%M:%S %Z %Y"
+date_fmt	"%a %b %e/
+ %H:%M:%S /
+%Z %Y"
