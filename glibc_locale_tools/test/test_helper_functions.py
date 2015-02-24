@@ -296,7 +296,7 @@ d_t_fmt "%a %d %b %Y %r %Z"
 
   def test_in_unsafe_spans(self):
     """
-      Tests `in_unsafe_spans`.
+    Tests `in_unsafe_spans`.
     """
 
     match_start = 421

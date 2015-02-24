@@ -125,6 +125,8 @@ def get_unsafe_spans(lines, lines_joined):
   """
   Generates a list of unsafe spans.
 
+  Unsafe span are comment lines that contain double quotes (that should not be (en|de)coded).
+
   :param lines: A list of lines
   :param lines_joined: A string of lines
   :return: A list of unsafe spans
