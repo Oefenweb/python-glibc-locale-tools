@@ -2,6 +2,7 @@
 
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 import sys
 import re
 from glibc_locale_tools.glibc_locale_tools import *

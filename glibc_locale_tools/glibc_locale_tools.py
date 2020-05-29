@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+import sys
 
 
 BETWEEN_QUOTES_PATTERN = r'"([^"]*)"'
@@ -52,8 +53,11 @@ def unicode_decode(unicode_char):
   :param unicode_char: An unicode char
   :return: A (decoded) unicode char
   """
-
-  return unichr(int(unicode_char, 16))
+  if sys.version_info >= (3, 0):
+    return chr(int(unicode_char, 16))
+  else:
+    # Keep this for Python 2.x
+    return unichr(int(unicode_char, 16))
 
 
 def unicode_encode(char):

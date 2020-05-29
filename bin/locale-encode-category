@@ -2,13 +2,18 @@
 
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 import sys
 from glibc_locale_tools.glibc_locale_tools import *
 
 lines = []
 for line in sys.stdin:
   lines.append(line)
-lines_joined = ''.join(lines).decode('utf-8')
+lines_joined = ''.join(lines)
+
+# Handle Python 2.x
+if sys.version_info < (3, 0):
+  lines_joined = lines_joined.decode('utf-8')
 
 unsafe_spans = get_unsafe_spans(lines, lines_joined)
 
@@ -38,6 +43,10 @@ for between_quotes_map_items in between_quotes_map:
                                     between_quotes_map_items['replacement'],
                                     between_quotes_map_items['end'])
 
-sys.stdout.write(lines_joined.encode('utf-8'))
+# Handle Python 2.x
+if sys.version_info < (3, 0):
+  lines_joined = lines_joined.encode('utf-8')
+
+sys.stdout.write(lines_joined)
 
 sys.exit(0)
