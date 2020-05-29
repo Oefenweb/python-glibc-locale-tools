@@ -8,30 +8,30 @@ import re
 from glibc_locale_tools.glibc_locale_tools import *
 
 if len(sys.argv) != 2:
-  sys.stderr.write('%s [LC section name (e.g. LC_TIME)]\n' % sys.argv[0])
-  sys.exit(1)
+    sys.stderr.write('%s [LC section name (e.g. LC_TIME)]\n' % sys.argv[0])
+    sys.exit(1)
 
 lc_section = sys.argv[1]
 
 if lc_section not in POSSIBLE_LC_SECTIONS:
-  sys.stderr.write('Non existing LC section %s\n' % lc_section)
-  sys.exit(1)
+    sys.stderr.write('Non existing LC section %s\n' % lc_section)
+    sys.exit(1)
 
 lc_section_pattern = LC_SECTION_PATTERN.format(lc_section)
 
 lines = ''
 for line in sys.stdin:
-  lines += line
+    lines += line
 
 match_comment_char = re.search(COMMENT_CHAR_PATTERN, lines, re.MULTILINE)
 match_escape_char = re.search(ESCAPE_CHAR_PATTERN, lines, re.MULTILINE)
 match_category = re.search(lc_section_pattern, lines, re.DOTALL)
 
 if match_comment_char:
-  sys.stdout.write(match_comment_char.group(1) + '\n')
+    sys.stdout.write(match_comment_char.group(1) + '\n')
 if match_escape_char:
-  sys.stdout.write(match_escape_char.group(1) + '\n')
+    sys.stdout.write(match_escape_char.group(1) + '\n')
 if match_category:
-  sys.stdout.write(match_category.group(1).lstrip('\n'))
+    sys.stdout.write(match_category.group(1).lstrip('\n'))
 
 sys.exit(0)
