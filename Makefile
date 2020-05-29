@@ -12,8 +12,8 @@ deb:
 	python setup.py --command-packages=stdeb.command bdist_deb
 
 check:
-	find . -name \*.py | xargs pep8 --first
-	find bin -type f | xargs pep8 --first
+	find . -name \*.py | xargs pycodestyle --first
+	find bin -type f | xargs pycodestyle --first
 
 test:
 	nosetests -v
