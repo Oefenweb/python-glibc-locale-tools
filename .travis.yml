@@ -2,6 +2,7 @@ language: python
 
 python:
   - "2.7"
+  - "3.5"
 
 install: "make init"
 
@@ -16,6 +17,6 @@ script:
 
 notifications:
   email: false
-  hipchat:
+  slack:
     rooms:
-      secure: Fs2DhIDlqNM70oxVj9b5BpbZ/OtKvI09SVjWq4fWwFvX4cuD1fxJ4/xknyjWYONTPYQu1PMdomu3HvJ5auVcyM/fuH2dkVffEGlDsH300aId8HoRN/VcCcdLvckqgPgjpZIomOTF1G195SVolQ9Va7uc1LOzbNOb3k4lP1M+Xms=
+      secure: "Rse+KZpjFlG+ztNF2x0nb+mdckfG3ZMDt7/U7hoti6n3dG/5dGPuTWv53aU12zCC5uo5Owur3hmONqLAp+EOo+b8A5yxnTrjbDKo/GymCvtToXkcg6omlhEBZxcvKyKpGwjlRcx/ZXC6SRc5+NONLsgRnZQy/pDkxZ7WJhrj/yI="
