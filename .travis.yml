@@ -20,3 +20,4 @@ notifications:
   slack:
     rooms:
       secure: "Rse+KZpjFlG+ztNF2x0nb+mdckfG3ZMDt7/U7hoti6n3dG/5dGPuTWv53aU12zCC5uo5Owur3hmONqLAp+EOo+b8A5yxnTrjbDKo/GymCvtToXkcg6omlhEBZxcvKyKpGwjlRcx/ZXC6SRc5+NONLsgRnZQy/pDkxZ7WJhrj/yI="
+
